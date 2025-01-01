@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Hero = () => {
+  // Array of image paths
   const images = [
     "/images/1.jpg",
     "/images/2.jpg",
@@ -17,25 +18,33 @@ const Hero = () => {
     "/images/12.jpg",
   ];
 
-  const [shuffledImages, setShuffledImages] = useState(images);
+  // State for the shuffled images
+  const [currentImages, setCurrentImages] = useState(images);
 
+  // Function to shuffle images
+  const shuffleImages = () => {
+    const shuffled = [...images]
+      .map((img) => ({ img, sort: Math.random() }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ img }) => img);
+    setCurrentImages(shuffled);
+  };
+
+  // Shuffle images every 1 second (optimized interval handling)
   useEffect(() => {
     const interval = setInterval(() => {
-      const shuffled = [...shuffledImages]
-        .map((img) => ({ img, sort: Math.random() }))
-        .sort((a, b) => a.sort - b.sort)
-        .map(({ img }) => img);
-      setShuffledImages(shuffled);
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [shuffledImages]);
+      shuffleImages();
+    }, 1000); // Shuffle every 1 second for faster animations
+    return () => clearInterval(interval); // Cleanup interval on component unmount
+  }, []);
 
   return (
     <div className="flex flex-col lg:flex-row flex-1 items-center justify-between w-full h-screen p-3 md:p-8 bg-gradient-to-b from-[#2C3E50] to-[#4B244A]">
+      {/* Title Section */}
       <div className="absolute top-4 px-4 left-4">
         <h1 className="text-[45px] font-bold text-[#C5A880]">STudiO PicK</h1>
       </div>
+
       <div className="w-full pt-[20%] mt-[20%] lg:w-1/2 lg:mt-0 max-w-2xl text-center lg:p-10">
         <h4 className="text-[#C5A880] font-medium text-2xl">
           "Your Love, Our Lens"
@@ -62,15 +71,15 @@ const Hero = () => {
         }}
       >
         <AnimatePresence>
-          {shuffledImages.map((image, index) => (
+          {currentImages.map((image, index) => (
             <motion.div
               key={image}
               layout
               className="aspect-square overflow-hidden rounded-lg bg-[#333333]"
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.4 }} // Faster animation
             >
               <img
                 src={image}
