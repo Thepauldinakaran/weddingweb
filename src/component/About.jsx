@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import Image1 from "/images/13.png"; // Correct image path and extension
 
 const About = () => {
   const initialPositions = [
@@ -29,7 +28,7 @@ const About = () => {
       rotate: 10,
       zIndex: 3,
       color: "bg-[#FAF3E0]", // Ivory Cream
-      image: Image1, // Image for this card
+      image: false, // Image for this card
     },
   ];
 
